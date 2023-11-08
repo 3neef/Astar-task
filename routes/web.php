@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "check out swagger to know the endpoints";
+    return response()->json(["message" => "check out swagger to know the endpoints", "url" => "http://localhost:8000/api/documentation"]);
 });
 

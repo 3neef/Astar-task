@@ -99,7 +99,12 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        return response()->json(['category' => new CategoryResource($category)], 200);
+
+        if($category){
+            return response()->json(['category' => new CategoryResource($category)], 200);
+        }else{
+            return response()->json(['item' => "not found"], 200);
+        }
     }
 
       /**
@@ -147,7 +152,11 @@ class CategoriesController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
-        return response()->json(['category' => new CategoryResource($category)], 201);
+        if($category){
+            return response()->json(['category' => new CategoryResource($category)], 201);
+        }else{
+            return response()->json(['item' => "something went wrong"], 200);
+        }
     }
 
     /**
@@ -202,7 +211,12 @@ class CategoriesController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
-        return response()->json(['category' => new CategoryResource($category)], 200);
+        if($category){
+            return response()->json(['category' => new CategoryResource($category)], 200);
+        }else{
+            return response()->json(['item' => "something went wrong"], 200);
+        }
+        return response()->json(['item' => "something went wrong"], 200);
     }
 
      /**

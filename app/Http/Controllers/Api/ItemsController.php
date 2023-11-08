@@ -99,7 +99,11 @@ class ItemsController extends Controller
 
     public function show(Item $item)
     {
-        return response()->json(['item' => new ItemResource($item)], 200);
+        if($item){
+            return response()->json(['item' => new ItemResource($item)], 200);
+        }else{
+            return response()->json(['item' => "not found"], 200);
+        }
     }
 
         /**
@@ -149,7 +153,11 @@ class ItemsController extends Controller
     public function store(ItemRequest $request)
     {
         $item = Item::create($request->all());
-        return response()->json(['item' => new ItemResource($item)], 201);
+        if($item){
+            return response()->json(['item' => new ItemResource($item)], 201);
+        }else{
+            return response()->json(['item' => "something went wrong"], 200);
+        }
     }
 
       /**
@@ -206,7 +214,12 @@ class ItemsController extends Controller
     public function update(ItemRequest $request, Item $item)
     {
         $item->update($request->all());
-        return response()->json(['item' => new ItemResource($item)], 200);
+        if($item){
+            return response()->json(['item' => new ItemResource($item)], 200);
+        }else{
+            return response()->json(['item' => "something went wrong"], 200);
+        }
+        return response()->json(['item' => "something went wrong"], 200);
     }
 
          /**

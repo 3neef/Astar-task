@@ -98,7 +98,11 @@ class PartitionsController extends Controller
 
     public function show(Partition $partition)
     {
-        return response()->json(['partition' => new PartitionResource($partition)], 200);
+        if($partition){
+            return response()->json(['partition' => new PartitionResource($partition)], 200);
+        }else{
+            return response()->json(['partition' => "not found"], 200);
+        }
     }
 
       /**
@@ -155,7 +159,11 @@ class PartitionsController extends Controller
     public function store(PartitionRequest $request)
     {
         $partition = Partition::create($request->all());
-        return response()->json(['partition' => new PartitionResource($partition)], 201);
+        if($partition){
+            return response()->json(['partition' => new PartitionResource($partition)], 201);
+        }else{
+            return response()->json(['partition' => 'something went wrong'], 200);
+        }
     }
 
           /**
@@ -202,7 +210,12 @@ class PartitionsController extends Controller
     public function update(PartitionRequest $request, Partition $partition)
     {
         $partition->update($request->all());
-        return response()->json(['partition' => new PartitionResource($partition)], 200);
+        if($partition){
+            return response()->json(['partition' => new PartitionResource($partition)], 200);
+        }else{
+            return response()->json(['partition' => "something went wrong"], 200);
+        }
+        return response()->json(['partition' => "something went wrong"], 200);
     }
 
          /**
