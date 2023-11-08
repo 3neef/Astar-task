@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/register', [AuthController::class, 'register'])->middleware('role:admin');
-    // Route::get('/users', [PostController::class, 'show'])->middleware('restrictRole:admin');
-    // Route::put('/users/{id}', [PostController::class, 'update'])->middleware('restrictRole:moderator');
+    Route::apiResource('categories', CategoriesController::class);
+    Route::post('categories/restore/{id}', [CategoriesController::class ,'restore']);
+
 });
