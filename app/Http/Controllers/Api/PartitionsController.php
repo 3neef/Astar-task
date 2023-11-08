@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Collections\PartitionsCollection;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PartitionRequest;
+use App\Http\Resources\PartitionResource;
 use App\Models\Partition;
 use Illuminate\Http\Request;
 
@@ -50,9 +52,9 @@ class PartitionsController extends Controller
      *       ),
      *  )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $partitions = Partition::all();
+        $partitions = PartitionResource::collection(PartitionsCollection::collection($request));
         return response()->json(['partitions' => $partitions], 200);
     }
 
@@ -96,7 +98,7 @@ class PartitionsController extends Controller
 
     public function show(Partition $partition)
     {
-        return response()->json(['partition' => $partition], 200);
+        return response()->json(['partition' => new PartitionResource($partition)], 200);
     }
 
       /**
@@ -153,7 +155,7 @@ class PartitionsController extends Controller
     public function store(PartitionRequest $request)
     {
         $partition = Partition::create($request->all());
-        return response()->json(['partition' => $partition], 201);
+        return response()->json(['partition' => new PartitionResource($partition)], 201);
     }
 
           /**
@@ -200,7 +202,7 @@ class PartitionsController extends Controller
     public function update(PartitionRequest $request, Partition $partition)
     {
         $partition->update($request->all());
-        return response()->json(['partition' => $partition], 200);
+        return response()->json(['partition' => new PartitionResource($partition)], 200);
     }
 
          /**
@@ -289,6 +291,6 @@ class PartitionsController extends Controller
     {
         $partition = Partition::onlyTrashed()->findOrFail($id);
         $partition->restore();
-        return response()->json(['partition' => $partition], 200);
+        return response()->json(['partition' => new PartitionResource($partition)], 200);
     }
 }

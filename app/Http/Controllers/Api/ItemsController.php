@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Collections\ItemsCollection;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
+use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
@@ -50,9 +52,9 @@ class ItemsController extends Controller
      *       ),
      *  )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::all();
+        $items = ItemResource::collection(ItemsCollection::collection($request));
         return response()->json(['items' => $items], 200);
     }
 
@@ -97,7 +99,7 @@ class ItemsController extends Controller
 
     public function show(Item $item)
     {
-        return response()->json(['item' => $item], 200);
+        return response()->json(['item' => new ItemResource($item)], 200);
     }
 
         /**
@@ -147,7 +149,7 @@ class ItemsController extends Controller
     public function store(ItemRequest $request)
     {
         $item = Item::create($request->all());
-        return response()->json(['item' => $item], 201);
+        return response()->json(['item' => new ItemResource($item)], 201);
     }
 
       /**
@@ -204,7 +206,7 @@ class ItemsController extends Controller
     public function update(ItemRequest $request, Item $item)
     {
         $item->update($request->all());
-        return response()->json(['item' => $item], 200);
+        return response()->json(['item' => new ItemResource($item)], 200);
     }
 
          /**
@@ -293,6 +295,6 @@ class ItemsController extends Controller
     {
         $item = Item::onlyTrashed()->findOrFail($id);
         $item->restore();
-        return response()->json(['item' => $item], 200);
+        return response()->json(['item' => new ItemResource($item)], 200);
     }
 }

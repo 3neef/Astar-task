@@ -14,6 +14,6 @@ class Item extends Model
 
     public function partition()
     {
-        return $this->belongsTo('App\Partition');
+        return $this->belongsTo(Partition::class);
     }
 }

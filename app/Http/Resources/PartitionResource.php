@@ -18,7 +18,7 @@ class PartitionResource extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'description'   => $this->en_name,
+            'description'   => $this->description,
             'created_at'    => $this->created_at->format('d-m-Y'),
             'category'      => $this->category->name ?? "",
             'items'         => $this->items ?? "",

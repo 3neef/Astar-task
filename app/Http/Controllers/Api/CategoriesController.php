@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Collections\CategoriesCollection;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -50,9 +52,9 @@ class CategoriesController extends Controller
      *       ),
      *  )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        $categories = CategoryResource::collection(CategoriesCollection::collection($request));
         return response()->json(['categories' => $categories], 200);
     }
 
@@ -97,7 +99,7 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        return response()->json(['category' => $category], 200);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 
       /**
@@ -145,7 +147,7 @@ class CategoriesController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
-        return response()->json(['category' => $category], 201);
+        return response()->json(['category' => new CategoryResource($category)], 201);
     }
 
     /**
@@ -200,7 +202,7 @@ class CategoriesController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
-        return response()->json(['category' => $category], 200);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 
      /**
@@ -288,6 +290,6 @@ class CategoriesController extends Controller
     {
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
-        return response()->json(['category' => $category], 200);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 }

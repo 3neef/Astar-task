@@ -13,6 +13,6 @@ class Category extends Model
 
     public function partitions()
     {
-        return $this->hasMany('App\Partition');
+        return $this->hasMany(Partition::class);
     }
 }
