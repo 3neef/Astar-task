@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoriesController;
+use App\Http\Controllers\Api\ItemsController;
 use App\Http\Controllers\Api\PartitionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // partitions routes
     Route::apiResource('partitions', PartitionsController::class);
     Route::post('partitions/restore/{id}', [PartitionsController::class ,'restore']);
+
+    // Items routes
+    Route::apiResource('items', ItemsController::class);
+    Route::post('items/restore/{id}', [ItemsController::class ,'restore']);
 
 });
